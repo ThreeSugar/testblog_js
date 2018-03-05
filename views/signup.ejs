@@ -36,6 +36,12 @@
                     </ul>
                     <% } %>
 
+                    <% if (typeof message != "undefined") { %> 
+                        <div class="alert alert-danger">
+                            <%= message %>
+                        </div>
+                    <% } %>
+    
                     <!-- form card login -->
                     <div class="card rounded-0">
                         <div class="card-header">

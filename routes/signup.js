@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/users');
-const passport = require('passport');
-var passportLocalMongoose = require('passport-local-mongoose');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -10,7 +8,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  var name = req.body.name;
 	var email = req.body.email;
 	var username = req.body.username;
 	var password = req.body.password;
@@ -33,7 +30,23 @@ router.post('/', function(req, res, next) {
   } 
 
   else {
-   //
+    var newUser = new User({
+			email: email,
+			username: username,
+			password: password
+    });
+
+    User.findOne({"$or" : [{'email': newUser.email}, {'username': newUser.username}]}).exec(
+      function(err, user){
+        if(user){
+          res.render('signup', {message:'Email or Username already exist!'});
+        } else {
+          User.createUser(newUser, function(err){
+            console.log(err);
+          });
+          res.redirect('/login')
+        }});
+    
   }
 
 });

@@ -65,12 +65,6 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
-const User = require('./models/users');
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
-
 app.use('/', index);
 app.use('/users', users);
 app.use('/login', login);

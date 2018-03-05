@@ -1,12 +1,24 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var passportLocalMongoose = require('passport-local-mongoose');
+var uniqueValidator = require('mongoose-unique-validator');
+var bcrypt = require('bcrypt');
 
 var UserSchema = new Schema({
-    email: { type: String, unique: true, required: true },
+    username: { type: String, required: true, unique: true },
+    email: { type: String, index: true, unique: true, required: true, uniqueCaseInsensitive: true },
+    password: { type: String, required: true }
 });
 
 
-UserSchema.plugin(passportLocalMongoose);
+UserSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('User', UserSchema, 'users');
+
+module.exports.createUser = function(newUser, callback){
+	bcrypt.genSalt(12, function(err, salt) {
+	    bcrypt.hash(newUser.password, salt, function(err, hash) {
+	        newUser.password = hash;
+	        newUser.save(callback);
+	    });
+	});
+}
