@@ -5,11 +5,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
+var flash = require('req-flash');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var login = require('./routes/login');
 var signup = require('./routes/signup');
+var logout = require('./routes/logout');
 
 var app = express();
 
@@ -58,9 +60,11 @@ var LocalStrategy = require('passport-local').Strategy;
 
 app.use(require('express-session')({
   secret: 'secret',
-  resave: false,
-  saveUninitialized: false
+  resave: true,
+  saveUninitialized: true
 }));
+
+app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -69,6 +73,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/login', login);
 app.use('/signup', signup);
+app.use('/logout', logout)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
