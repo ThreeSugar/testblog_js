@@ -21,6 +21,9 @@ app.engine('ejs', engine);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// Set Static Folder
+app.use(express.static(path.join(__dirname, 'public')));
+
 //database setup(mongodb)
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
