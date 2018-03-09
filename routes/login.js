@@ -4,11 +4,6 @@ var User = require('../models/users');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.render('login');
-});
-
 passport.use(new LocalStrategy(
   {usernameField: 'email'},
   function(username, password, done) {
@@ -18,7 +13,7 @@ passport.use(new LocalStrategy(
       }
       if(!user){
         console.log('no user');
-        return done(null, false, {message: 'Unknown User'});
+        return done(null, false,  {message: 'Invalid Email.'});
       }
 
       User.comparePassword(password, user.password, function(err, isMatch){
@@ -30,7 +25,7 @@ passport.use(new LocalStrategy(
           return done(null, user);
         } else {
           console.log('password invaild');
-          return done(null, false, {message: 'Invalid password'});
+          return done(null, false, {message: 'Invalid Password.'});
         }
       });
     });    
@@ -46,8 +41,13 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
+/* GET users listing. */
+router.get('/', function(req, res, next) {
+  res.render('login', {failure_message: req.flash('error')});  //req.flash('error') needed to access the {message: 'Invalid Password.'} as seen above
+});
 
-router.post('/',  passport.authenticate('local', {successRedirect: '/', failureRedirect:'/login', failureFlash: true})
-);
+
+router.post('/',  passport.authenticate('local', {successRedirect: '/', failureRedirect:'/login', failureFlash: true,
+}));
   
 module.exports = router;
