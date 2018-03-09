@@ -47,26 +47,8 @@ passport.deserializeUser(function(id, done) {
 });
 
 
-router.post('/',  passport.authenticate('local', {failureRedirect:'/login', failureFlash: true}),
-  function(req, res) {
-
-  req.checkBody('email', 'Email is required').notEmpty();
-  req.checkBody('email', 'Email is not valid').isEmail();
-  req.checkBody('password', 'Password is required').notEmpty();
-
-  var errors = req.validationErrors();
-
-	if(errors) {
-    console.log(errors);
-		res.render('login', {
-			errors:errors
-		});
-  } 
-
-  else {
-    res.redirect('/');
-  }
-});
+router.post('/',  passport.authenticate('local', {successRedirect: '/', failureRedirect:'/login', failureFlash: true})
+);
   
 
 
