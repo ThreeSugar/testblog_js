@@ -70,6 +70,11 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
+//register user object (must be placed after passport.session, but before any other routes)
+app.use(function(req, res, next) {
+  res.locals.user = req.user;
+  next();
+});
 
 app.use('/', index);
 app.use('/users', users);
