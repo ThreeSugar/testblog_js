@@ -13,6 +13,8 @@ var login = require('./routes/login');
 var signup = require('./routes/signup');
 var logout = require('./routes/logout');
 
+var blog = require('./routes/blog');
+
 var app = express();
 
 // view engine setup
@@ -83,6 +85,8 @@ app.use('/users', users);
 app.use('/login', login);
 app.use('/signup', signup);
 app.use('/logout', logout);
+
+app.use('/blog', blog);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
