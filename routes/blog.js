@@ -28,6 +28,34 @@ router.get('/submit', function(req, res, next){
   }
 })
 
+router.get('/edit', function(req, res, next){
+  if(req.isAuthenticated()){
+    Article.find({'author': req.user.username}, function(err, article){
+      if(err) throw err;
+      if(article){
+        res.render('blog/edit', {article:article})
+      } else {
+        res.render('blog/edit');
+      }
+    })
+  }
+  else {
+    res.redirect('../login');
+  }
+})
+
+//order matters, those GET routes with params should be placed last
+
+router.get('/:id', function(req, res, next) {
+  var blog_id = req.params.id;
+  Article.findById(blog_id, function(err, article){
+    if (err) throw err;
+    if (article) {
+      res.render('view', {article:article});
+    }
+  })
+});
+
 router.post('/submit', function(req, res, next){
   var title = req.body.title;
   var summary = req.body.summary;
@@ -61,14 +89,6 @@ router.post('/submit', function(req, res, next){
 
 })
 
-router.get('/:id', function(req, res, next) {
-  var blog_id = req.params.id;
-  Article.findById(blog_id, function(err, article){
-    if (err) throw err;
-    if (article) {
-      res.render('view', {article:article});
-    }
-  })
-});
+
 
 module.exports = router;

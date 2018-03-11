@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard</title>
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <% include ../partials/nav %>
+    <table style = "margin-top:50px; margin-bottom:400px;" class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Summary</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% if (typeof article != "undefined") { %> 
+                <% for(i=0; i < article.length; i++) { %>
+                    <tr>
+                        <th scope="row"><%= i + 1 %></th>
+                        <td><%= article[i].title %></td>
+                        <td><%= article[i].summary %></td>
+                    </tr>
+                <% } %> 
+            <% } %>
+            </tbody>
+    </table>
+<% include ../partials/footer %>
+<!-- Bootstrap core JavaScript -->
+<script src="../vendor/jquery/jquery.min.js"></script>
+<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

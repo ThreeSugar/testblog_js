@@ -5,7 +5,7 @@ var Article = require('../models/blog');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   if(req.isAuthenticated()){
-    Article.find({'author': req.user.username }, function (err, article) {
+    Article.find({'author': req.user.username}, function (err, article) {
       if (err) throw err;
       for(i=0; i < article.length; i++) {
         console.log(article[i].title);
@@ -19,11 +19,9 @@ router.get('/', function(req, res, next) {
       }
     });
   } 
-  
   else {
     res.redirect('login');
   }
-
 });
 
 module.exports = router;
