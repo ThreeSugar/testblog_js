@@ -12,6 +12,14 @@ router.get('/', function(req, res, next) {
 
 });
 
+router.get('/view', function(req, res, next){
+  if(req.isAuthenticated()){
+    res.render('view');
+  } else {
+    res.redirect('../login');
+  }
+})
+
 router.get('/submit', function(req, res, next){
   if(req.isAuthenticated()){
     res.render('blog/submit');
