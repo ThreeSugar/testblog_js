@@ -61,4 +61,14 @@ router.post('/submit', function(req, res, next){
 
 })
 
+router.get('/:id', function(req, res, next) {
+  var blog_id = req.params.id;
+  Article.findById(blog_id, function(err, article){
+    if (err) throw err;
+    if (article) {
+      res.render('view', {article:article});
+    }
+  })
+});
+
 module.exports = router;

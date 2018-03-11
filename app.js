@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 var flash = require('express-flash');
+var helpers = require('express-helpers');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -16,6 +17,9 @@ var logout = require('./routes/logout');
 var blog = require('./routes/blog');
 
 var app = express();
+
+//ejs helpers
+helpers(app);
 
 // view engine setup
 var engine = require('ejs-mate');
