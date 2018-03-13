@@ -44,7 +44,7 @@ router.get('/edit', function(req, res, next){
   }
 })
 
-//order matters, those GET routes with params should be placed last
+//order matters, those GET routes with params should be placed last?
 
 router.get('/:id', function(req, res, next) {
   var blog_id = req.params.id;
@@ -99,6 +99,46 @@ router.post('/submit', function(req, res, next){
 
 })
 
+router.post('/edit/:id', function(req, res, next) {
+  var blog_id = req.params.id;
+
+  var title = req.body.title;
+  var summary = req.body.summary;
+  var content = req.body.content;
+
+  req.checkBody('title', 'Title is required').notEmpty();
+  req.checkBody('summary', 'Summary is required').notEmpty();
+  req.checkBody('content', 'Content is required').notEmpty();
+
+  var errors = req.validationErrors();
+
+	if(errors) {
+    Article.findById(blog_id, function(err, article){
+      if (err) throw err;
+      if(article){
+        res.render('blog/update', {
+          errors:errors, article: article
+        });
+      }
+    })
+  } 
+
+  else {
+    Article.findById(blog_id, function(err, article){
+      if (err) throw err;
+      if (article) {
+        article.title = title;
+        article.summary = summary;
+        article.content = content;
+        article.save(function(err){
+          console.log(err);
+        });
+        req.flash('blog_update', 'Successfully updated article!');
+        res.redirect('../../blog/edit');
+      }
+    })
+  }
+})
 
 
 module.exports = router;

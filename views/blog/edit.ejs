@@ -10,7 +10,12 @@
 
 <body>
     <% include ../partials/nav %>
-    <table style = "margin-top:50px; margin-bottom:400px;" class="table">
+    <% if (messages.blog_update) { %> 
+        <div style = "margin-top:100px;" class="alert alert-success"><%= messages.blog_update %>
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        </div>
+    <% } %>
+    <table style = "margin-top:100px; margin-bottom:400px;" class="table">
             <thead>
             <tr>
                 <th>#</th>
