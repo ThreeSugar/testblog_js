@@ -67,6 +67,18 @@ router.get('/edit/:id', function(req, res, next) {
   })
 })
 
+router.get('/delete/:id', function(req, res, next){
+  var blog_id = req.params.id;
+  Article.findById(blog_id, function(err, article){
+    if (err) throw err;
+    if (article) {
+      article.remove();
+      req.flash('blog_update', 'Successfully deleted article!');
+      res.redirect('../../blog/edit');
+    }
+  })
+})
+
 router.post('/submit', function(req, res, next){
   var title = req.body.title;
   var summary = req.body.summary;

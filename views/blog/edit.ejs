@@ -31,7 +31,10 @@
                         <th scope="row"><%= i + 1 %></th>
                         <td><%= article[i].title %></td>
                         <td><%= article[i].summary %></td>
-                        <td><%- link_to('Edit', '/blog/edit/'+ article[i]._id) %></td>
+                        <td><%- link_to('Edit', '/blog/edit/'+ article[i]._id) %>
+                            &nbsp;
+                            <%- link_to('Delete', '/blog/delete/' + article[i]._id) %>
+                        </td>
                     </tr>
                 <% } %> 
             <% } %>
