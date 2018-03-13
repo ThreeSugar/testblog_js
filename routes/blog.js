@@ -56,6 +56,16 @@ router.get('/:id', function(req, res, next) {
   })
 });
 
+router.get('/edit/:id', function(req, res, next) {
+  var blog_id = req.params.id;
+  Article.findById(blog_id, function(err, article){
+    if (err) throw err;
+    if (article) {
+      res.render('blog/update', {article:article});
+    }
+  })
+})
+
 router.post('/submit', function(req, res, next){
   var title = req.body.title;
   var summary = req.body.summary;
