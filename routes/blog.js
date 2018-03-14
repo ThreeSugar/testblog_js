@@ -31,7 +31,7 @@ router.get('/submit', function(req, res, next){
 
 router.get('/edit', function(req, res, next){
   if(req.isAuthenticated()){
-    Article.find({'author': req.user.username}, function(err, article){
+    Article.find({'author': req.user.username}, null, {sort: '-date'}, function(err, article){
       if(err) throw err;
       if(article){
         res.render('blog/edit', {article:article})
