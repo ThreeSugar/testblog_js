@@ -2,17 +2,17 @@
 
 <!-- Blog Post -->
 <% if (typeof article != "undefined") { %> 
-  <% for(i=0; i < article.length; i++) { %>
+  <% for(i=0; i < article.docs.length; i++) { %>
 <div class="card mb-4">
     <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
     <div class="card-body">
-      <h2 class="card-title"><%= article[i].title %></h2>
-      <p class="card-text"><%= article[i].summary %></p>
-      <%- link_to('Read More  &rarr;', '/blog/'+ article[i]._id, {class: 'btn btn-primary'}) %>
+      <h2 class="card-title"><%= article.docs[i].title %></h2>
+      <p class="card-text"><%= article.docs[i].summary %></p>
+      <%- link_to('Read More  &rarr;', '/blog/'+ article.docs[i]._id, {class: 'btn btn-primary'}) %>
     </div>
     <div class="card-footer text-muted">
-      Posted on <%= article[i].date %> by
-      <a href="#"><%= article[i].author %></a>
+      Posted on <%= article.docs[i].date %> by
+      <a href="#"><%= article.docs[i].author %></a>
     </div>
 </div>
   <% } %> 
