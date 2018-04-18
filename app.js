@@ -16,7 +16,10 @@ var logout = require('./routes/logout');
 
 var blog = require('./routes/blog');
 
+var chat = require('./routes/chat');
+
 var app = express();
+var server = require('http').createServer(app);
 
 //ejs helpers
 helpers(app);
@@ -91,6 +94,7 @@ app.use('/signup', signup);
 app.use('/logout', logout);
 
 app.use('/blog', blog);
+app.use('/chat', chat);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -109,5 +113,27 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+//socket.io 
+server.listen(5000);
+const io = require('socket.io')(server);
+io.on('connection', function(client){ 
+    console.log('chat works') 
+    client.username = "Anon"
+    client.on('change_username', (data => {client.username = data.username}))
+
+    //listen on new_message
+    client.on('new_message', (data) => {
+      //broadcast the new message
+      io.sockets.emit('new_message', {message : data.message, username : client.username});
+    })
+
+    //listen on typing
+    client.on('typing', (data) => {
+    client.broadcast.emit('typing', {username : client.username})
+    })
+});
+
+
 
 module.exports = app;
